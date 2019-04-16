@@ -1,0 +1,12 @@
+<div class="validation-feedback" *ngIf="field.dirty">
+  <div *ngIf="field.hasError('required')">
+    Field is required
+  </div>
+  <div *ngIf="field.getError('minlength') as error">
+    Field has to have at least {{error.requiredLength}} letters
+  </div>
+  <div *ngIf="field.hasError('email')">
+    Email is incorrect
+  </div>
+  <ng-content></ng-content>
+</div>

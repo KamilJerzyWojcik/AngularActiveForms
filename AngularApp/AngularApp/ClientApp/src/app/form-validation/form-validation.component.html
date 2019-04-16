@@ -1,0 +1,56 @@
+<h3>Registration</h3>
+<div class="col-md-6 col-lg-6">
+  <form [formGroup]="registrationForm">
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" class="form-control" formControlName="username">
+      <div *ngIf="registrationForm.get('username').pending">
+        Validating username ...
+      </div>
+      <app-validation-feedback controlName="username">
+        <div *ngIf="registrationForm.get('username').hasError('invalidUsername')">
+          Invalid User name
+        </div>
+      </app-validation-feedback>
+    </div>
+    <div class="form-group">
+      <label>E-Mail</label>
+      <input type="text" class="form-control" formControlName="email">
+      <div class="validation-feedback"
+        *ngIf="registrationForm.get('email').touched && registrationForm.get('email').dirty">
+        <app-validation-feedback controlName="email"></app-validation-feedback>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="text" class="form-control" formControlName="password">
+      <div class="validation-feedback"
+        *ngIf="registrationForm.get('password').touched && registrationForm.get('password').dirty">
+        <app-validation-feedback controlName="password">
+          <div *ngIf="registrationForm.get('password').getError('password') as error">
+            Password has to contain
+            <div *ngIf="error.uppercase">- Uppercase letters</div>
+            <div *ngIf="error.lowercase">- Lowercase letters</div>
+            <div *ngIf="error.number">- Numbers</div>
+            <div *ngIf="error.special">- Special characters</div>
+          </div>
+        </app-validation-feedback>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Repeat password</label>
+      <input type="text" class="form-control" formControlName="repeatPassword" [appFieldsMatch]="registrationForm.get('password')">
+      <app-validation-feedback controlName="repeatPassword">
+        <div *ngIf="registrationForm.get('repeatPassword').hasError('passwordMatch')">
+          Passwords must match
+        </div>
+      </app-validation-feedback>
+    </div>
+    <div class="form-group">
+      <input type="submit" class="btn btn-success btn-block" value="Register">
+    </div>
+  </form>
+</div>
+<div class="col-md-6 col-lg-6">
+  <pre>{{registrationForm.value | json}}</pre>
+</div>

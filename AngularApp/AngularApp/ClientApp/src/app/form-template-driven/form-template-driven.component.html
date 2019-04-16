@@ -1,0 +1,7 @@
+<div class="container">
+  <h2>Form template driven</h2>
+  <app-form-example [data]="formData" (dataChange)="saveData($event)"></app-form-example>
+</div>
+<pre>
+  Model outer:{{formData | json}}
+</pre>

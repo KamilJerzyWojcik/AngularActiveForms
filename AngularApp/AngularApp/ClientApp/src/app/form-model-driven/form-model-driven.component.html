@@ -1,0 +1,71 @@
+<h2>
+  Form Model Driver
+</h2>
+
+<div class="row">
+  <div class="col-md-6 col-sm-12">
+    <form [formGroup]="formDefinition">
+      <div class="form-group">
+        <input type="text" class="form-control" formControlName="title">
+      </div>
+      <button (click)="addTextField(this.formDefinition.get('fields'))" class="btn btn-success">Add text field</button>
+      <button (click)="addOptionField (this.formDefinition.get('fields'))" class="btn btn-success">Add options field</button>      
+      <div *ngFor="let field of getControlsList(this.formDefinition.get('fields'))" class="border-form">
+        <div [ngSwitch]="field.get('type').value">
+
+          <div *ngSwitchCase="'text'">
+            <h6>Text Field:</h6>
+            <div class="form-group" [formGroup]="field">
+              <label>Label:</label>
+              <input type="text" class="form-control" formControlName="label">
+              <label>Hints
+                <input type="checkbox" (change)="addHints(field, $event.target.checked)">
+              </label>
+              <div *ngIf="field.get('hints')">
+                <input type="text" class="form-control" formControlName="hints">
+              </div>
+            </div>
+          </div>
+
+          <div *ngSwitchCase="'options'">
+            <h6>Options Field:</h6>
+            <div class="form-group" [formGroup]="field">
+              <label>Label:</label>
+              <input type="text" class="form-control" formControlName="label">
+            </div>
+            <div class="form-group">
+              <label>CheckBox options</label>
+              <div class="input-group" *ngFor="let option of getControlsList(field.get('options')); let i = index"
+                [formGroup]="option">
+
+                <div class="row">
+                  <div class="col-md-2 col-xs-2 col-lg-2">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <input type="checkbox" class="form-check" formControlName="selected">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5 col-xs-5 col-lg-5">
+                    <input type="text" class="form-control" formControlName="value">
+                  </div>
+                  <div class="col-md-5 col-xs-5 col-lg-5">
+                    <span class="close" (click)="removeOption(field.get('options'), i)"
+                      style="padding: 8px;">&times;</span>
+                    <span class="close" [ngClass]="{'active-up': i > 0}" (click)="moveUpOption(field.get('options'), i)">&uarr;</span>
+                    <span class="close" [ngClass]="{'active-down': i < field.get('options').length - 1}" (click)="moveDownOption(field.get('options'), i)">&darr;</span>
+                  </div>
+                </div>
+              </div>
+              <button class="btn button-option" (click)="addOption(field.get('options'))">Add Option</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-6 col-sm-12">
+    <pre>{{formDefinition.value | json}}</pre>
+  </div>
+</div>

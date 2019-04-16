@@ -1,0 +1,8 @@
+form .ng-invalid.ng-touched.ng-dirty/*element zawiera obie klasy lub obie inne*/
+ {
+    border: 2px solid red;
+}
+
+form .ng-invalid.ng-touched.ng-dirty ~ .validation-feedback { /*każdy następny z klasa validation-feedback */
+    color: rgb(172, 47, 47);
+}
